@@ -34,7 +34,7 @@ namespace Shop_5_5
             int cusomersCount = int.Parse(Console.ReadLine());
 
             var customersGenerator = new CustomersGenerator(cusomersCount, products);
-            Customer[] customers = customersGenerator.GetCustomers();
+            Customer[] customers = customersGenerator.GetRandomCustomers();
 
             shop.AddQueue(customers);
 

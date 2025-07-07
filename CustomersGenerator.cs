@@ -21,33 +21,37 @@ namespace Shop_5_5
             _products = products;
         }
 
-        public Customer[] GetCustomers()
+        public Customer[] GetRandomCustomers()
         {
             Customer[] customers = new Customer[_customersCount];
 
-            Shop shop = ServiceLocator.GetService<Shop>();
-
-            int minProductIndex = 0;
-            int maxProductIndex = _products.Length - 1;
-
             for (int i = 0; i < _customersCount; i++)
-            {
-                int randomProductsCount = _random.Next(_minProductsCount, _maxProductsCount + 1);
-
-                Product[] randomProducts = new Product[randomProductsCount];
-
-                for (int j = 0; j < randomProductsCount; j++)
-                {
-                    int randomProductIndex = _random.Next(minProductIndex, maxProductIndex + 1);
-                    randomProducts[j] = _products[randomProductIndex];
-                    Total += randomProducts[j].Price;
-                }
-
-                int randomBalance = _random.Next(Total, _maxBalance + 1);
-                customers[i] = new Customer(randomBalance, randomProducts);
+            {              
+                customers[i] = GetRandomCustomer();
             }
 
             return customers;
+        }
+        
+        public Customer GetRandomCustomer()
+        {
+            int minProductIndex = 0;
+            int maxProductIndex = _products.Length - 1;
+
+            int randomProductsCount = _random.Next(_minProductsCount, _maxProductsCount + 1);
+
+            Product[] randomProducts = new Product[randomProductsCount];
+
+            for (int j = 0; j < randomProductsCount; j++)
+            {
+                int randomProductIndex = _random.Next(minProductIndex, maxProductIndex + 1);
+                randomProducts[j] = _products[randomProductIndex];
+                Total += randomProducts[j].Price;
+            }
+
+            int randomBalance = _random.Next(Total, _maxBalance + 1);
+
+            return new Customer(randomBalance, randomProducts);
         }
     }
 }
