@@ -1,0 +1,7 @@
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\bin\Debug\Shop_5_5.exe.config
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\bin\Debug\Shop_5_5.exe
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\bin\Debug\Shop_5_5.pdb
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\obj\Debug\Shop_5_5.csproj.AssemblyReference.cache
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\obj\Debug\Shop_5_5.csproj.CoreCompileInputs.cache
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\obj\Debug\Shop_5_5.exe
+D:\Files\CS Projects\LAMOP\Section5\Shop_5_5\obj\Debug\Shop_5_5.pdb
