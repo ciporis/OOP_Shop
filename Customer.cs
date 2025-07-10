@@ -1,22 +1,38 @@
-﻿namespace Shop_5_5
+﻿using System;
+using System.Collections.Generic;
+
+namespace Shop_5_5
 {
     internal class Customer
     {
-        public int Balance { get; private set; }
-        public Product[] Products { get; private set; }//private
-        public int ProductsCount => Products.Length;
-        public int Total { get; private set; }
+        private Product[] _products;
 
         public Customer(int balance, Product[] producsts)
         {
             Balance = balance;
-
-            foreach (Product product in producsts)
-            {
-                Total += product.Price;
-            }
-
-            Products = producsts;//создать метод get total вместо этого
+            _products = producsts;
         }
+
+        public int GetTotalPrice()
+        {
+            int total = 0;
+
+            foreach (Product product in _products)
+                total += product.Price;
+
+            return total;
+        }
+
+        public void ShowCart()
+        {
+            foreach (Product product in _products)
+                Console.WriteLine($"{product.Name}: {product.Price}$");
+
+            Console.WriteLine();
+            Console.WriteLine($"Total: {GetTotalPrice()}$");
+        }
+
+        public int Balance { get; private set; }
+        public IReadOnlyList<Product> Products => Array.AsReadOnly(_products);
     }
 }

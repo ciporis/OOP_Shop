@@ -13,22 +13,20 @@ namespace Shop_5_5
         private int _customersCount;
         private Product[] _products;
 
-        public int Total { get; private set; }
-
         public CustomersGenerator(int customersCount, Product[] products)
         {
             _customersCount = customersCount;
             _products = products;
         }
 
+        public int Total { get; private set; }
+
         public Customer[] GetRandomCustomers()
         {
             Customer[] customers = new Customer[_customersCount];
 
-            for (int i = 0; i < _customersCount; i++)
-            {              
+            for (int i = 0; i < _customersCount; i++)              
                 customers[i] = GetRandomCustomer();
-            }
 
             return customers;
         }

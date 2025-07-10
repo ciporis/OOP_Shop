@@ -4,8 +4,6 @@ namespace Shop_5_5
 {
     internal class Shop
     {
-        public Product[] Products { get; private set; }
-        public int Balance { get; private set; }
         public Queue<Customer> Queue = new Queue<Customer>();
 
         public Shop(Product[] products)
@@ -13,6 +11,9 @@ namespace Shop_5_5
             Products = products;
             Balance = 0;
         }
+
+        public Product[] Products { get; private set; }
+        public int Balance { get; private set; }
 
         public void AddQueue(Customer[] customers)
         {
@@ -22,21 +23,9 @@ namespace Shop_5_5
             }
         }
 
-        public void Sell()
+        public void AddMoney(int amount)
         {
-            Customer currentCustomer = Queue.Peek();
-
-            foreach(Product product in currentCustomer.Products)
-            {
-                Balance += product.Price;
-            }
-
-            Queue.Dequeue();
-        }
-
-        public void Reject()
-        {
-            Queue.Dequeue();
+            Balance += amount;
         }
     }
 }

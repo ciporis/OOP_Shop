@@ -6,8 +6,12 @@ namespace Shop_5_5
     {
         static void Main(string[] args)
         {
-            const ConsoleKey Access = ConsoleKey.Y;
-            const ConsoleKey Reject = ConsoleKey.N;
+            const string ShowBalanceAction = "Show balance";
+            const string ShowNextCustomerAction = "Show next customer in line";
+            const string ExitAction = "Exit";
+
+            const string SellProductsToCustomerAction = "Sell products to this customer";
+            const string RejectSellingProductsToCustomerAction = "Reject selling to this customer";
 
             Product[] products = 
             {
@@ -29,57 +33,83 @@ namespace Shop_5_5
             };
 
             Shop shop = new Shop(products);
+            Seller seller = new Seller(shop);
 
             Console.WriteLine("Enter customers count:");
             int cusomersCount = int.Parse(Console.ReadLine());
+
+            Console.Clear();
 
             var customersGenerator = new CustomersGenerator(cusomersCount, products);
             Customer[] customers = customersGenerator.GetRandomCustomers();
 
             shop.AddQueue(customers);
 
-            int leftCursorPos = 40;
-            int topCursorPos = 0;
-
-            for (int i = 0; i < cusomersCount; i++)
+            string[] mainMenuActions =
             {
-                Customer currentCustomer = shop.Queue.Peek();
+                ShowBalanceAction,
+                ShowNextCustomerAction,
+                ExitAction,
+            };
 
-                Console.Clear();
-                Console.SetCursorPosition(leftCursorPos, topCursorPos);
-                Console.Write($"Current balance: {shop.Balance}");
+            string[] clientMenuActions =
+            {
+                SellProductsToCustomerAction,
+                RejectSellingProductsToCustomerAction,
+            };
 
-                Console.SetCursorPosition(0, 0);
+            bool isWorking = true;
 
-                Console.WriteLine($"Customer's balance: {currentCustomer.Balance}");
-                Console.WriteLine($"Customer's cart:");
+            while (isWorking)
+            {
+                Console.WriteLine("Choose an action number");
 
-                for (int j = 0; j < currentCustomer.Products.Length; j++)
+                for (int i = 0; i < mainMenuActions.Length; i++)
+                    Console.WriteLine($"{i + 1}) {mainMenuActions[i]}");
+
+                int actionIndex = int.Parse(Console.ReadLine()) - 1;
+
+                switch (mainMenuActions[actionIndex])
                 {
-                    Console.WriteLine($"{currentCustomer.Products[j].Name} : {currentCustomer.Products[j].Price}$");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine($"Total: {currentCustomer.Total}");
-                Console.WriteLine();
-
-                Console.WriteLine("Press [y] for access and [n] for reject");
-
-                ConsoleKeyInfo pressedKey = Console.ReadKey();
-
-                switch (pressedKey.Key)//изменить меню (могу показать баланс, принять, отклонить покупку)
-                {
-                    case (Access):
-                        shop.Sell();
+                    case ShowBalanceAction:
+                        Console.WriteLine(shop.Balance);
                         break;
-                    case (Reject):
-                        shop.Reject();
+                    case ShowNextCustomerAction:
+                        if (shop.Queue.Count == 0)
+                        {
+                            Console.WriteLine("There are no customers!!!");
+                            isWorking = false;
+                            break;
+                        }
+
+                        Customer currentCustomer = shop.Queue.Peek();
+
+                        Console.Clear();
+
+                        currentCustomer.ShowCart();
+                        Console.WriteLine($"Customer's balance: {currentCustomer.Balance}$");
+                        Console.WriteLine();
+
+                        for (int j = 0; j < clientMenuActions.Length; j++)
+                            Console.WriteLine($"{j + 1}) {clientMenuActions[j]}");
+
+                        int clientActionIndex = int.Parse(Console.ReadLine()) - 1;
+
+                        switch (clientMenuActions[clientActionIndex])
+                        {
+                            case SellProductsToCustomerAction:
+                                seller.SellProducts(currentCustomer);
+                                break;
+                            case RejectSellingProductsToCustomerAction:
+                                break;
+                        }
+
+                        break;
+                    case ExitAction:
+                        isWorking = false;
                         break;
                 }
             }
-
-            Console.SetCursorPosition(leftCursorPos, topCursorPos);
-            Console.Write($"Current balance: {shop.Balance}");
         }
     }
 }
